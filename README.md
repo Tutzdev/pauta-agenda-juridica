@@ -18,7 +18,7 @@ Agenda para advogada que trabalha sem secretária: audiências, prazos, reuniõe
 - **Aviso de choque de horário:** ao marcar algo, avisa se bate com outro compromisso em aberto.
 - **Clientes:** cadastro com busca por nome ou telefone, WhatsApp e ligação a um clique e o histórico de cada um na agenda. Cliente novo é cadastrado só de digitar o nome no compromisso.
 - **Número de processo conferido:** padrão CNJ com validação dos dígitos verificadores. Um número digitado errado é recusado na hora.
-- **Feito com desfazer**, atalho **N** para novo compromisso, e funciona no celular.
+- **Feito com desfazer** e **Remover** direto na lista da agenda e dos prazos, atalho **N** para novo compromisso, e funciona no celular.
 
 | Agenda | Prazos |
 | --- | --- |

@@ -268,14 +268,18 @@ function whenBlock(item, showDate) {
   return `<span class="row-when ${tone}"><small>${item.type === 'DEADLINE' ? 'prazo' : 'dia'}</small><strong>${item.type === 'DEADLINE' ? icon('file-clock') : 'todo'}</strong></span>`;
 }
 
-function rowActions(item) {
-  if (item.status === 'SCHEDULED') {
-    return `<button class="action" type="button" data-action="complete" data-id="${item.id}" aria-label="Marcar ${escapeHtml(item.title)} como feito">${icon('check')}Feito</button>`;
-  }
-  return `<button class="action action--accent" type="button" data-action="reopen" data-id="${item.id}" aria-label="Reabrir ${escapeHtml(item.title)}">${icon('reopen')}Reabrir</button>`;
+function rowActions(item, removable) {
+  const title = escapeHtml(item.title);
+  const status = item.status === 'SCHEDULED'
+    ? `<button class="action" type="button" data-action="complete" data-id="${item.id}" aria-label="Marcar ${title} como feito">${icon('check')}Feito</button>`
+    : `<button class="action action--accent" type="button" data-action="reopen" data-id="${item.id}" aria-label="Reabrir ${title}">${icon('reopen')}Reabrir</button>`;
+  const remove = removable
+    ? `<button class="action action--danger" type="button" data-action="remove" data-id="${item.id}" aria-label="Remover ${title}">${icon('trash')}Remover</button>`
+    : '';
+  return status + remove;
 }
 
-function row(item, { showDate = false, actions = true } = {}) {
+function row(item, { showDate = false, actions = true, removable = false } = {}) {
   const type = TYPES[item.type];
   const meta = [
     `<span class="type-tag type-${item.type}">${type.label}</span>`,
@@ -292,7 +296,7 @@ function row(item, { showDate = false, actions = true } = {}) {
       <div class="row-title"><span>${escapeHtml(item.title)}</span>${alertPill(item)}</div>
       <div class="row-meta">${meta}</div>
     </div>
-    ${actions ? `<div class="row-actions">${rowActions(item)}</div>` : ''}
+    ${actions ? `<div class="row-actions">${rowActions(item, removable)}</div>` : ''}
   </div>`;
 }
 
@@ -504,7 +508,7 @@ function renderDayPanel() {
   $('#day-title').textContent = iso === state.today ? `Hoje, ${format(iso, { day: 'numeric', month: 'long' })}` : longDate(iso);
   $('#day-subtitle').textContent = items.length ? plural(items.length, 'compromisso', 'compromissos') : 'Dia livre';
   $('#day-list').innerHTML = (closed ? `<p class="day-closed">${icon('calendar')} ${escapeHtml(closed)}: sem expediente forense.</p>` : '')
-    + (items.length ? rows(items) : ui.empty('Nada marcado', 'Clique em "Adicionar" ou dê dois cliques no dia do calendário.'));
+    + (items.length ? rows(items, { removable: true }) : ui.empty('Nada marcado', 'Clique em "Adicionar" ou dê dois cliques no dia do calendário.'));
 }
 
 function selectDay(iso) {
@@ -580,7 +584,7 @@ function renderPrazos(deadlines) {
       <header class="surface-head"><div>
         <h2>${group.title} <span class="count">(${items.length})</span></h2><p>${group.hint}</p>
       </div></header>
-      <div class="list">${rows(items, { showDate: true })}</div>
+      <div class="list">${rows(items, { showDate: true, removable: true })}</div>
     </section>`;
   }).join('');
 }
@@ -1030,6 +1034,10 @@ async function runAndReload(operation, message, undo = null) {
 async function rowAction(button) {
   const id = Number(button.dataset.id);
   const action = button.dataset.action;
+  if (action === 'remove') {
+    await removeAppointment(state.byId.get(id) || { id, title: 'este compromisso' });
+    return;
+  }
   button.disabled = true;
   if (action === 'complete') {
     await runAndReload(() => api.complete(id), 'Marcado como feito.',
@@ -1037,6 +1045,13 @@ async function rowAction(button) {
   } else {
     await runAndReload(() => api.reopen(id), 'Voltou para a agenda.');
   }
+}
+
+async function removeAppointment(item) {
+  const what = item.type === 'DEADLINE' ? 'prazo' : 'compromisso';
+  const confirmed = await ui.confirm(`Remover ${what}?`, `"${item.title}" sairá da agenda. Esta ação não pode ser desfeita.`, 'Remover');
+  if (!confirmed) return;
+  await runAndReload(() => api.deleteAppointment(item.id), `${what.charAt(0).toUpperCase()}${what.slice(1)} removido.`);
 }
 
 async function applyInlineCalculation() {

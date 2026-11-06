@@ -422,6 +422,7 @@ select.control { cursor: pointer; }
 .action:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .action:disabled { opacity: 0.55; cursor: wait; }
 .action--icon { width: 2.25rem; padding: 0; }
+.action--danger:hover:not(:disabled) { border-color: rgb(192 40 31 / 0.35); background: var(--danger-soft); color: var(--danger); }
 .action--accent:hover:not(:disabled) { border-color: rgb(37 99 235 / 0.35); background: var(--accent-soft); color: var(--accent-strong); }
 
 @media (max-width: 36rem) {
@@ -429,6 +430,10 @@ select.control { cursor: pointer; }
   .row-actions { width: 100%; padding-left: 4.375rem; }
   .row-actions .action { flex: 1; }
 }
+
+/* Coluna do dia na agenda é estreita: os botões descem para baixo do texto. */
+.day-panel .row { flex-wrap: wrap; }
+.day-panel .row-actions { width: 100%; padding-left: 4.375rem; }
 
 .list--compact .row { padding: 0.5rem; }
 .list--compact .row-when { width: 3rem; min-height: 2.75rem; }
