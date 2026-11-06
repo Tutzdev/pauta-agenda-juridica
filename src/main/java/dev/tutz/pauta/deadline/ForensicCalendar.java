@@ -4,6 +4,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.MonthDay;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -50,6 +51,17 @@ public class ForensicCalendar {
             return Optional.of("Feriado local");
         }
         return Optional.empty();
+    }
+
+    /** Dias sem expediente entre {@code from} e {@code to}, sem os fins de semana. */
+    public List<ClosedDay> closedDays(LocalDate from, LocalDate to) {
+        return from.datesUntil(to.plusDays(1))
+                .filter(date -> !isWeekend(date))
+                .flatMap(date -> closureReason(date).map(reason -> new ClosedDay(date, reason)).stream())
+                .toList();
+    }
+
+    public record ClosedDay(LocalDate date, String reason) {
     }
 
     /** CPC, art. 220: suspende-se o curso do prazo entre 20 de dezembro e 20 de janeiro, inclusive. */

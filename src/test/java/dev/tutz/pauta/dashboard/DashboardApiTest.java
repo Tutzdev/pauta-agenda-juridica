@@ -57,4 +57,11 @@ class DashboardApiTest extends ApiTest {
                 .andExpect(jsonPath("$.dueDate").value("2026-11-30"))
                 .andExpect(jsonPath("$.skipped[0].reason").value("Dia da Consciência Negra"));
     }
+
+    @Test
+    void listsTheClosedDaysOfAMonthWithoutWeekends() throws Exception {
+        mvc.perform(get("/api/deadlines/closed-days").param("from", "2026-11-01").param("to", "2026-11-30"))
+                .andExpect(jsonPath("$[*].date").value(contains("2026-11-02", "2026-11-20")))
+                .andExpect(jsonPath("$[0].reason").value("Finados"));
+    }
 }
