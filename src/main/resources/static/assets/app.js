@@ -605,7 +605,11 @@ async function calculateDeadline(event) {
         <p>${plural(calculation.businessDays, 'dia útil', 'dias úteis')} contados da intimação em ${shortDate(calculation.startDate)}${calculation.weekendDays ? `, sem ${plural(calculation.weekendDays, 'dia', 'dias')} de fim de semana` : ''}.</p>
         ${skippedList(calculation)}
       </div>
-      <button class="button button--primary" type="button" id="schedule-deadline">${icon('plus')}Agendar este prazo</button>`;
+      <div class="calc-result-actions">
+        <button class="button button--primary" type="button" id="schedule-deadline">${icon('plus')}Agendar este prazo</button>
+        <button class="icon-button icon-button--bordered" type="button" id="dismiss-calculation" title="Fechar" aria-label="Fechar o resultado do cálculo">${icon('x')}</button>
+      </div>`;
+    $('#dismiss-calculation').addEventListener('click', dismissCalculation);
     $('#schedule-deadline').addEventListener('click', () => openAppointmentDialog(null, {
       type: 'DEADLINE', date: calculation.dueDate,
       notes: `Prazo de ${plural(calculation.businessDays, 'dia útil', 'dias úteis')} contado da intimação em ${shortDate(calculation.startDate)}.`
@@ -614,6 +618,14 @@ async function calculateDeadline(event) {
     result.hidden = false;
     result.innerHTML = `<p class="form-error">${escapeHtml(error.message)}</p>`;
   }
+}
+
+function dismissCalculation() {
+  const result = $('#calc-result');
+  result.hidden = true;
+  result.innerHTML = '';
+  state.lastCalculation = null;
+  $('#calc-form button[type="submit"]').focus();
 }
 
 function skippedList(calculation) {
