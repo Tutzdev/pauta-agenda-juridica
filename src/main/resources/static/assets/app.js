@@ -368,7 +368,8 @@ function renderPainel(dashboard, closed) {
   const { totals } = dashboard;
   const name = shortName(state.office?.lawyerName || '');
   $('#painel-date').textContent = fullDate(dashboard.today);
-  $('#painel-title').textContent = `${greeting()}${name ? `, ${name}` : ''}.`;
+  const title = `${greeting()}${name ? `, ${name}` : ''}`;
+  $('#painel-title').textContent = title.endsWith('.') ? title : `${title}.`;
   $('#painel-summary').textContent = summaryText(dashboard);
 
   $('#stat-today').textContent = totals.today;
@@ -1199,7 +1200,6 @@ async function init() {
     state.office = null;
   }
   setDateField($('#calc-form'), 'calcStart', state.today);
-  $('#office-name').textContent = state.office?.name || 'Escritório de Advocacia';
   $('#today-chip').textContent = longDate(state.today);
   route();
   refreshClientOptions();

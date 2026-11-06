@@ -55,8 +55,7 @@ Tudo por variável de ambiente, com padrões prontos para uso local.
 
 | Variável | Padrão | Para quê |
 | --- | --- | --- |
-| `PAUTA_ADVOGADA` | vazio | Nome exibido na saudação, ex.: `Dra. Helena Duarte` |
-| `PAUTA_ESCRITORIO` | `Escritório de Advocacia` | Nome no menu lateral |
+| `PAUTA_ADVOGADA` | `Dra.` | Como a saudação chama a advogada: "Boa tarde, Dra." |
 | `PAUTA_DIAS_ALERTA` | `5` | Prazos que vencem em até N dias aparecem como próximos |
 | `PAUTA_FERIADOS_LOCAIS` | `04-23,07-17` | Feriados estaduais e municipais (`MM-dd`). Padrão: RJ e Volta Redonda |
 | `PAUTA_RECESSO` | `true` | Recesso forense de 20/12 a 20/01 suspende a contagem |
