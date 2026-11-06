@@ -247,7 +247,7 @@ function alertPill(item) {
     case 'TODAY': return deadline ? ui.pill('Vence hoje', 'warning') : '';
     case 'UPCOMING': {
       const days = daysBetween(state.today, item.date);
-      return ui.pill(days === 1 ? 'Vence amanhã' : `Vence em ${days} dias`, 'gold');
+      return ui.pill(days === 1 ? 'Vence amanhã' : `Vence em ${days} dias`, 'accent');
     }
     default:
       if (item.status === 'DONE') return ui.pill('Feito', 'success');
@@ -272,7 +272,7 @@ function rowActions(item) {
   if (item.status === 'SCHEDULED') {
     return `<button class="action" type="button" data-action="complete" data-id="${item.id}" aria-label="Marcar ${escapeHtml(item.title)} como feito">${icon('check')}Feito</button>`;
   }
-  return `<button class="action action--gold" type="button" data-action="reopen" data-id="${item.id}" aria-label="Reabrir ${escapeHtml(item.title)}">${icon('reopen')}Reabrir</button>`;
+  return `<button class="action action--accent" type="button" data-action="reopen" data-id="${item.id}" aria-label="Reabrir ${escapeHtml(item.title)}">${icon('reopen')}Reabrir</button>`;
 }
 
 function row(item, { showDate = false, actions = true } = {}) {

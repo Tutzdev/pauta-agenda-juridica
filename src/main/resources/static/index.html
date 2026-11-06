@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0e0e0e">
+  <meta name="theme-color" content="#0f2a52">
   <title>Pauta · Agenda jurídica</title>
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="/assets/fonts/manrope-latin-wght.woff2" as="font" type="font/woff2" crossorigin>
@@ -49,8 +49,9 @@
   <div id="app" class="shell">
     <aside class="sidebar" id="sidebar" aria-label="Menu lateral">
       <div class="sidebar-head">
-        <a class="brand" href="#painel" aria-label="Ir para o painel">
+        <a class="brand" href="#painel" aria-label="Agenda Jurídica, ir para o painel">
           <span class="brand-mark" aria-hidden="true"><svg class="icon"><use href="#i-scale"/></svg></span>
+          <span class="brand-name">Agenda Jurídica</span>
         </a>
         <button id="close-menu" class="sidebar-icon-button" type="button" aria-label="Fechar menu">
           <svg class="icon"><use href="#i-x"/></svg>
@@ -306,7 +307,7 @@
               <button class="chip" type="button" data-date-shortcut="0">Hoje</button>
               <button class="chip" type="button" data-date-shortcut="1">Amanhã</button>
               <button class="chip" type="button" data-date-shortcut="7">Daqui 1 semana</button>
-              <button class="chip chip--gold" type="button" id="open-inline-calc" hidden><svg class="icon"><use href="#i-calculator"/></svg>Calcular prazo</button>
+              <button class="chip chip--accent" type="button" id="open-inline-calc" hidden><svg class="icon"><use href="#i-calculator"/></svg>Calcular prazo</button>
             </div>
           </div>
           <div class="field">
