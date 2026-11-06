@@ -377,7 +377,7 @@ select.control { cursor: pointer; }
 .list { padding: 0.5rem; }
 .row {
   position: relative;
-  display: flex; align-items: center; gap: 0.875rem;
+  display: flex; align-items: flex-start; gap: 0.875rem;
   padding: 0.75rem; border-radius: var(--radius-sm);
   transition: background-color 150ms ease;
   cursor: pointer;
@@ -396,12 +396,13 @@ select.control { cursor: pointer; }
 .row-when--danger small { color: var(--danger); }
 .row-when--warning { background: var(--warning-soft); color: var(--warning); }
 .row-when--warning small { color: var(--warning); }
-.row-main { display: grid; gap: 0.2rem; min-width: 0; flex: 1; }
+.row-main { display: grid; gap: 0.2rem; min-width: 0; flex: 1; padding-top: 0.125rem; }
 .row-title { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; font-size: 0.9375rem; font-weight: 700; line-height: 1.35; }
 .row-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0.875rem; font-size: 0.8125rem; color: var(--muted); }
 .row-meta span { display: inline-flex; align-items: center; gap: 0.3rem; min-width: 0; }
 .row-meta .icon { width: 0.875rem; height: 0.875rem; flex: none; }
-.row-actions { display: flex; gap: 0.375rem; flex: none; }
+.row-meta .nowrap { white-space: nowrap; }
+.row-actions { display: flex; align-items: center; gap: 0.375rem; flex: none; }
 .row.is-done .row-title > span:first-child { text-decoration: line-through; color: var(--muted); }
 .row.is-done .row-when { opacity: 0.6; }
 .row.is-canceled { opacity: 0.6; }
@@ -421,19 +422,22 @@ select.control { cursor: pointer; }
 .action:active:not(:disabled) { transform: scale(0.97); }
 .action:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 .action:disabled { opacity: 0.55; cursor: wait; }
-.action--icon { width: 2.25rem; padding: 0; }
+.action--icon { width: 2.25rem; padding: 0; color: var(--muted); }
+.action--icon .icon { width: 1rem; height: 1rem; }
 .action--danger:hover:not(:disabled) { border-color: rgb(192 40 31 / 0.35); background: var(--danger-soft); color: var(--danger); }
 .action--accent:hover:not(:disabled) { border-color: rgb(37 99 235 / 0.35); background: var(--accent-soft); color: var(--accent-strong); }
 
 @media (max-width: 36rem) {
   .row { flex-wrap: wrap; }
   .row-actions { width: 100%; padding-left: 4.375rem; }
-  .row-actions .action { flex: 1; }
+  .row-actions .action:not(.action--icon) { flex: 1; }
 }
 
-/* Coluna do dia na agenda é estreita: os botões descem para baixo do texto. */
-.day-panel .row { flex-wrap: wrap; }
-.day-panel .row-actions { width: 100%; padding-left: 4.375rem; }
+/* Coluna do dia na agenda é estreita: no computador os botões ficam só com ícone. */
+@media (min-width: 36.01rem) {
+  .day-panel .action { width: 2.25rem; padding: 0; }
+  .day-panel .action-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+}
 
 .list--compact .row { padding: 0.5rem; }
 .list--compact .row-when { width: 3rem; min-height: 2.75rem; }
@@ -458,7 +462,7 @@ select.control { cursor: pointer; }
 /* ---------- Agenda: calendário do mês ---------- */
 
 .month-controls { display: flex; align-items: center; gap: 0.5rem; }
-.agenda-layout { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1.65fr) minmax(19rem, 1fr); align-items: start; }
+.agenda-layout { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1.35fr) minmax(24rem, 1fr); align-items: start; }
 @media (max-width: 72rem) { .agenda-layout { grid-template-columns: 1fr; } }
 
 .calendar-weekdays, .calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); }

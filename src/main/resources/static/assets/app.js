@@ -271,10 +271,10 @@ function whenBlock(item, showDate) {
 function rowActions(item, removable) {
   const title = escapeHtml(item.title);
   const status = item.status === 'SCHEDULED'
-    ? `<button class="action" type="button" data-action="complete" data-id="${item.id}" aria-label="Marcar ${title} como feito">${icon('check')}Feito</button>`
-    : `<button class="action action--accent" type="button" data-action="reopen" data-id="${item.id}" aria-label="Reabrir ${title}">${icon('reopen')}Reabrir</button>`;
+    ? `<button class="action" type="button" data-action="complete" data-id="${item.id}" title="Marcar como feito" aria-label="Marcar ${title} como feito">${icon('check')}<span class="action-label">Feito</span></button>`
+    : `<button class="action action--accent" type="button" data-action="reopen" data-id="${item.id}" title="Reabrir" aria-label="Reabrir ${title}">${icon('reopen')}<span class="action-label">Reabrir</span></button>`;
   const remove = removable
-    ? `<button class="action action--danger" type="button" data-action="remove" data-id="${item.id}" aria-label="Remover ${title}">${icon('trash')}Remover</button>`
+    ? `<button class="action action--icon action--danger" type="button" data-action="remove" data-id="${item.id}" title="Remover" aria-label="Remover ${title}">${icon('trash')}</button>`
     : '';
   return status + remove;
 }
@@ -286,7 +286,7 @@ function row(item, { showDate = false, actions = true, removable = false } = {})
     showDate && item.startTime ? `<span>${icon('clock')}${item.startTime}</span>` : '',
     item.client ? `<span>${icon('user')}${escapeHtml(item.client.name)}</span>` : '',
     item.location ? `<span>${icon('map-pin')}${escapeHtml(item.location)}</span>` : '',
-    item.processNumber ? `<span>${icon('scale')}${escapeHtml(item.processNumber)}</span>` : ''
+    item.processNumber ? `<span class="nowrap">${icon('scale')}${escapeHtml(item.processNumber)}</span>` : ''
   ].join('');
   const stateClass = item.status === 'DONE' ? 'is-done' : item.status === 'CANCELED' ? 'is-canceled' : '';
 
